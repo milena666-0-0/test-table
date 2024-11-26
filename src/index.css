@@ -1,0 +1,108 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+}
+
+table tr td, table tr th {
+  border-inline: 1px solid white;
+}
+
+table tr td {
+  padding: 20px;
+}
+
+th {
+  position: relative;
+}
+
+body {
+  height: 100vh;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.resizer.ltr {
+  right: 0;
+}
+
+.resizer.rtl {
+  left: 0;
+}
+
+.resizer.isResizing {
+  background: blue;
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .resizer {
+    opacity: 0;
+  }
+
+  *:hover > .resizer {
+    opacity: 1;
+  }
+}
+
+.popover {
+  position: absolute;
+  width: 200px;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: black;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.popover-inner {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  
+}
+
+.table-container {
+  max-height: 80vh;
+  overflow-y: scroll;
+}
