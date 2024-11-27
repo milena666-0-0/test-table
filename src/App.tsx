@@ -1,9 +1,10 @@
-import { Table } from './Table';
+import { MyComponent } from './components/myComponent';
 
 function App() {
   return (
     <div className="container">
-      <Table />
+      <MyComponent />
+      {/* <Table /> */}
     </div>
   );
 }

@@ -41,11 +41,11 @@ import { makeData, Person } from './makeData';
 import { CSS } from '@dnd-kit/utilities';
 
 type Filter = {
-  column: Column<Person, unknown>
-}
+  column: Column<Person, unknown>;
+};
 
 const Filter: FC<Filter> = ({ column }) => {
-  const columnFilterValue = column.getFilterValue()
+  const columnFilterValue = column.getFilterValue();
 
   return (
     <DebouncedInput
@@ -56,13 +56,13 @@ const Filter: FC<Filter> = ({ column }) => {
       value={(columnFilterValue ?? '') as string}
     />
   );
-}
+};
 
 type DebouncedInput = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
-    value: string;
-    onChange: (value: string) => void;
-    debounce?: number;
-}
+  value: string;
+  onChange: (value: string) => void;
+  debounce?: number;
+};
 
 const DebouncedInput: FC<DebouncedInput> = ({
   value: initialValue,
@@ -73,7 +73,7 @@ const DebouncedInput: FC<DebouncedInput> = ({
   const [value, setValue] = useState<string>(initialValue);
 
   useEffect(() => {
-    if(!value && initialValue) {
+    if (!value && initialValue) {
       setValue(initialValue);
     }
   }, [initialValue]);
@@ -87,15 +87,19 @@ const DebouncedInput: FC<DebouncedInput> = ({
   }, [value]);
 
   return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
-}
+};
 
 type DraggableTableHeaderType = {
-  header: Header<Person, unknown>
-  table: TableType<Person>
-  columnResizeMode: ColumnResizeMode
-}
+  header: Header<Person, unknown>;
+  table: TableType<Person>;
+  columnResizeMode: ColumnResizeMode;
+};
 
-const DraggableTableHeader: FC<DraggableTableHeaderType> = ({ header, table, columnResizeMode }) => {
+const DraggableTableHeader: FC<DraggableTableHeaderType> = ({
+  header,
+  table,
+  columnResizeMode,
+}) => {
   const { attributes, isDragging, listeners, setNodeRef, transform } = useSortable({
     id: header.column.id,
   });
@@ -149,7 +153,7 @@ const DraggableTableHeader: FC<DraggableTableHeaderType> = ({ header, table, col
         🟰
       </button>
       <UniqueValues
-        data={table.getFilteredRowModel().flatRows.map(row => row.original)}
+        data={table.getFilteredRowModel().flatRows.map((row) => row.original)}
         columnName={header.column.id}
         column={header.column}
         table={table}
@@ -178,8 +182,8 @@ const DraggableTableHeader: FC<DraggableTableHeaderType> = ({ header, table, col
 };
 
 type DragCell = {
-  cell: Cell<Person, unknown>
-}
+  cell: Cell<Person, unknown>;
+};
 
 const DragAlongCell: FC<DragCell> = ({ cell }) => {
   const { isDragging, setNodeRef, transform } = useSortable({
@@ -198,21 +202,20 @@ const DragAlongCell: FC<DragCell> = ({ cell }) => {
       ref={setNodeRef}
       {...{
         key: cell.id,
-        style
+        style,
       }}
     >
       {cell.getIsGrouped() ? (
-                <button
-                  {...{
-                    onClick: cell.row.getToggleExpandedHandler(),
-                    style: { cursor: 'pointer', width: '100%' },
-                  }}
-                >
-                  {cell.row.getIsExpanded() ? '👇' : '👉'}
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  {cell.row.subRows.length}
-                </button>
-              
+        <button
+          {...{
+            onClick: cell.row.getToggleExpandedHandler(),
+            style: { cursor: 'pointer', width: '100%' },
+          }}
+        >
+          {cell.row.getIsExpanded() ? '👇' : '👉'}
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          {cell.row.subRows.length}
+        </button>
       ) : cell.getIsAggregated() ? (
         flexRender(
           cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell,
@@ -242,18 +245,18 @@ function IndeterminateCheckbox({
 }
 
 type UniqueValuesType = {
-  data: Person[]
-  columnName: string
-  column: Column<Person, unknown>
-  table: TableType<Person>
-}
+  data: Person[];
+  columnName: string;
+  column: Column<Person, unknown>;
+  table: TableType<Person>;
+};
 
 const UniqueValues: FC<UniqueValuesType> = ({ data, columnName, column }) => {
   const uniqueValues = useMemo((): Array<number | string> => {
     if (!data) return [];
     const uniqueValues: Set<string | number> = new Set();
 
-    const column = columnName as keyof Person
+    const column = columnName as keyof Person;
 
     const traverse = (item: Person) => {
       if (item[column] !== undefined) {
@@ -332,7 +335,7 @@ const UniqueValues: FC<UniqueValuesType> = ({ data, columnName, column }) => {
       )}
     </div>
   );
-}
+};
 
 export const Table = () => {
   const [columnResizeMode] = useState<ColumnResizeMode>('onChange');
@@ -341,7 +344,7 @@ export const Table = () => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const [search, setSearch] = useState('');
-  const [rowSelection, setRowSelection] = useState({})
+  const [rowSelection, setRowSelection] = useState({});
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [data] = useState(() => makeData(20));
@@ -440,7 +443,7 @@ export const Table = () => {
   );
 
   const [columnOrder, setColumnOrder] = useState<string[]>(() => columns.map((c) => c.id!));
-  
+
   const table = useReactTable({
     columns,
     data: filteredData,
@@ -454,7 +457,7 @@ export const Table = () => {
       columnFilters,
       expanded,
       grouping,
-      rowSelection
+      rowSelection,
     },
     onGroupingChange: setGrouping,
     onExpandedChange: setExpanded,
@@ -468,7 +471,7 @@ export const Table = () => {
     onColumnOrderChange: setColumnOrder,
     onRowSelectionChange: setRowSelection,
   });
-    
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
@@ -571,7 +574,7 @@ export const Table = () => {
         </div>
       </DndContext>
       <div className="h-2" />
-      <div style={{display: "flex", gap: "4px", marginTop: "10px"}}>
+      <div style={{ display: 'flex', gap: '4px', marginTop: '10px' }}>
         <button
           className="border rounded p-1"
           onClick={() => table.setPageIndex(0)}
@@ -600,13 +603,13 @@ export const Table = () => {
         >
           {'>>'}
         </button>
-        <span style={{display: "flex", gap: "2px"}}>
+        <span style={{ display: 'flex', gap: '2px' }}>
           <div>Page</div>
           <strong>
             {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
           </strong>
         </span>
-        <span style={{display: "flex", gap: "2px"}}>
+        <span style={{ display: 'flex', gap: '2px' }}>
           | Go to page:
           <input
             type="number"
